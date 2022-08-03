@@ -1,0 +1,57 @@
+Link to the problem:https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/
+
+class Solution {
+    
+    public static int binary(int[] a,int target,int start,int end){
+        
+        if(a.length==0)
+            return -1;
+        
+        if(target<a[0] || target>a[a.length-1])
+            return -1;
+        
+        while(start<=end){
+            int mid=start+(end-start)/2;
+            
+            if(a[mid]==target)
+                return mid;
+            
+            else if(a[mid]>target)
+                end=mid-1;
+            else
+                start=mid+1;
+        }
+        return -1;
+    }
+    public int[] searchRange(int[] nums, int target) {
+        int[] answer=new int[2];
+        
+        int n=nums.length;
+        int ans=-1,index=-1,start=0,end=n-1;
+        
+        index=binary(nums,target,start,end);
+        while(index!=-1){
+            if(index!=-1){
+                ans=index;
+                index=binary(nums,target,start,index-1);
+            }
+            else 
+                break;
+        }
+        answer[0]=ans;
+        
+        start=0;end=n-1;
+        index=binary(nums,target,start,end);
+        while(index!=-1){
+            if(index!=-1){
+                ans=index;
+                index=binary(nums,target,index+1,end);
+            }
+            else 
+                break;
+        }
+        answer[1]=ans;
+        
+        return answer;
+    }
+}
